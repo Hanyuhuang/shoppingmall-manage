@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>拼东东商城</title>
+</head>
+<body>
+<form action="updateSku" method="post">
+	<input type="hidden" th:value="${sku.id}" name="id"/>
+	商品库存名称：<input type="text" name="name" th:value="${sku.name}"/><br>
+	商品库存数量：<input type="text" name="number" th:value="${sku.number}"/><br>
+	商品库存价格：<input type="text" name="price" th:value="${sku.price}"/><br>
+	商品库存地址：<input type="text" name="address" th:value="${sku.address}"/><br>
+	<input type="submit" value="修改"/>
+</form>
+
+</body>
+</html>

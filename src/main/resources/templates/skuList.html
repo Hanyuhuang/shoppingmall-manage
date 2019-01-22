@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/easyui/themes/icon.css}">
+</head>
+<body>
+<div th:fragment="skuList">
+    <table class="table table-condensed table-hover " th:if="${skuList!=null}">
+        <tr><th>库存名称</th><th>商品价格</th><th>商品数量</th><th>库存地址</th><th>商品属性</th><th>操作</th></tr>
+        <tr th:each="skuAttrValue:${skuList}">
+            <input type="hidden" name="id" th:value="${skuAttrValue.sku.id}">
+            <td th:text="${skuAttrValue.sku.name}"></td>
+            <td th:text="${skuAttrValue.sku.price}"></td>
+            <td th:text="${skuAttrValue.sku.number}"></td>
+            <td th:text="${skuAttrValue.sku.address}"></td>
+            <td>
+                <div th:each="attrValue:${skuAttrValue.attrValueList}">
+                    <p th:text="${attrValue.value.value+attrValue.value.name}">
+                </div>
+            </td>
+            <td>
+                <a th:href="'javascript:gotoUpdateSku('+${skuAttrValue.sku.id}+');'">修改</a>
+                <a th:href="'javascript:deleteSku('+${skuAttrValue.sku.id}+','+${skuAttrValue.spu.id}+','+${skuAttrValue.spu.class2}+','+${skuAttrValue.spu.brandId}+');'" onclick="return cof()" style="text-align: right">删除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

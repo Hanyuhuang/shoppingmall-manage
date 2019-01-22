@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.2.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center;margin-top: 180px">
+    <img th:src="@{/image/success.png} " height="350px" width="350px">
+    <h2 th:text="添加成功" class="text-success" ></h2>
+    <span id="time" class="text-danger" style="font-size: 25px">5秒后返回主页面</span><br><br>
+    <a href="index" class="btn btn-primary" style="font-size: 20px">点击跳过</a>
+  <script type="text/javascript">
+    onload = function() {
+        setInterval(go, 1000);
+    };
+    var x = 5; //利用了全局变量来执行
+    function go() {
+        x--;
+        if (x > 0) {
+            document.getElementById("time").innerHTML = x+'秒后返回主页面'; //每次设置的x的值都不一样了。
+        } else {
+            location.href = 'index';
+        }
+    }
+</script>
+
+</body>
+</html>

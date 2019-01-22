@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>拼东东商城</title>
+</head>
+<body>
+<form action="addSku" method="post">
+	<input type="hidden" th:value="${spu.class1}" name="spu.class1"/>
+	<input type="hidden" th:value="${spu.class2}" name="spu.class2"/>
+	<input type="hidden" th:value="${spu.brandId}" name="spu.brandId"/>
+	<input type="hidden" th:value="${spu.id}" name="spu.id"/>
+	<hr>
+		分类属性：<br>
+		<tr th:each="attr,status: ${attrList}">
+			<input th:value="${attr.id}" th:name="${'attrValueList['+status.index+'].attr.id'}" type="checkbox"  th:text="${attr.name}" th:onclick="'javascript:show_val('+${attr.id}+',this.checked)'"/>
+		</tr>
+	<br>
+
+	<tr th:each="attr,status: ${attrList}">
+		<div th:id="${'val_'+attr.id}" style="display: none">
+			<td th:each="val: ${attr.valueList}">
+				<input th:value="${val.id}" th:name="${'attrValueList['+status.index+'].value.id'}" type="radio" th:text="${val.value+val.name}"/>
+			</td>
+		</div>
+	</tr>
+
+	
+	商品库存名称：<input type="text" name="sku.name"/><br>
+	商品库存数量：<input type="text" name="sku.number"/><br>
+	商品库存价格：<input type="text" name="sku.price"/><br>
+	商品库存地址：<input type="text" name="sku.address"/><br>
+	<input type="submit" value="添加"/>
+</form>
+
+<script type="text/javascript">
+
+	function show_val(attr_id,checked){
+		if(checked){
+			$("#val_"+attr_id).show();
+		}else{
+			$("#val_"+attr_id).hide();
+		}
+	}
+</script>
+</body>
+</html>

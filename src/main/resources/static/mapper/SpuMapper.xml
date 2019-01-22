@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hyh.shoppingmallmanage.mapper.SpuMapper">
+
+    <select id="listSpu" parameterType="Product"
+		resultType="Product">
+		select * from product
+		<where>
+			<if test="brandId!=null and brandId!=''">
+				and brand_id = #{brandId}
+			</if>
+			<if test="class2!=null and class2!=''">
+				and class2=#{class2}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addImages" parameterType="List">
+		insert into product_image(product_id,url)
+		values
+		<foreach collection="list" item="image" separator=",">
+			(#{image.productId},#{image.url})
+		</foreach>
+	</insert>
+
+	<select id="getSpu" parameterType="Product" resultType="Product">
+		select * from product where id=#{id}
+	</select>
+
+	<delete id="deleteSpu" parameterType="Product">
+		delete from product where id = #{id}
+	</delete>
+
+	<delete id="deleteImages" parameterType="Product">
+		delete from product_image where product_id = #{id}
+	</delete>
+
+	<update id="updateSpu" parameterType="Product">
+		update product set name =#{name},pic=#{pic},describes =#{describes} where id = #{id}
+	</update>
+
+	<insert useGeneratedKeys="true" keyColumn="id" keyProperty="id"
+		id="addSpu" parameterType="Product">
+		insert into product
+		(
+		name,
+		pic,
+		class1,
+		class2,
+		brand_id,
+		describes
+		)
+		values
+		(
+		#{name},
+		#{pic},
+		#{class1},
+		#{class2},
+		#{brandId},
+		#{describes}
+		)
+	</insert>
+
+
+</mapper>

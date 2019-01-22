@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>拼东东商城</title>
+</head>
+<body>
+
+	一级：<select id="attr_class_1_select" onchange="get_attr_class_2(this.value);"><option>请选择</option></select>
+	二级：<select  id="attr_class_2_select" ><option>请选择</option></select>
+	<a href="javascript:gotoAddAttr()"  class="easyui-linkbutton" plain="true" iconCls="icon-add">添加</a>
+	<a href="javascript:listAttr()"  class="easyui-linkbutton" plain="true" iconCls="icon-search">查询</a><br>
+	<div id="attrList" th:include="attrList::attrList"></div>
+
+	
+	<script type="text/javascript">
+
+        $(function (){
+            $.getJSON("js/json/class_1.js",function(data){
+                $(data).each(function(i,json){
+                    $("#attr_class_1_select").append("<option value="+json.id+">"+json.flmch1+"</option>");
+                });
+            });
+        });
+
+        function get_attr_class_2(class_1_id){
+            $.getJSON("js/json/class_2_"+class_1_id+".js",function(data){
+                $("#attr_class_2_select").empty();
+                $(data).each(function(i,json){
+                    $("#attr_class_2_select").append("<option value="+json.id+">"+json.flmch2+"</option>");
+                });
+            });
+        }
+
+        function gotoAddAttr(){
+            var class2 = $("#attr_class_2_select").val();
+            add_tab("gotoAddAttr?class2="+class2,"添加属性");
+        }
+
+        function listAttr(){
+            var class2 = $("#attr_class_2_select").val();
+            $.get("listAttr",{class2:class2},function(data){
+                $("#attrList").html(data);
+            });
+        }
+
+        function gotoUpdateAttr(id){
+            var class2 = $("#attr_class_2_select").val();
+            add_tab("gotoUpdateAttr?id="+id+'&class2='+class2,"修改属性");
+        }
+
+        function deleteValue(id){
+            var class2 = $("#attr_class_2_select").val();
+            $.get("deleteValue",{id:id,class2:class2},function(data){
+                $("#attrList").html(data);
+            });
+        }
+        function deleteAttr(id){
+            var class2 = $("#attr_class_2_select").val();
+            $.get("deleteAttr",{id:id,class2:class2},function(data){
+                $("#attrList").html(data);
+                alert("删除成功!");
+            });
+        }
+        function cof() {
+            if(confirm("确认是否删除！")){
+                return true;
+            }
+            return false;
+        }
+</script>
+</body>
+</html>

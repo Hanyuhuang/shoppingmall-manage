@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>拼东东商城</title>
+</head>
+<body>
+	sku商品信息管理
+	<hr>
+	一级：<select id="sku_class_1_select" onchange="get_class_2(this.value);"><option>请选择</option></select>
+	二级：<select  id="sku_class_2_select"><option>请选择</option></select>
+	品牌:<select id="sku_tm_select" name="brandId" onchange="listSpu(this.value)"></select>
+	商品<select id="spu_select" name="id"></select>
+	<a href="javascript:listSku();" class="easyui-linkbutton" plain="true" iconCls="icon-search">查询</a>
+	<a href="javascript:gotoAddSku();" class="easyui-linkbutton" plain="true" iconCls="icon-add">添加</a><br>
+
+    <div id="skuList" th:include="skuList::skuList">
+    </div>
+	
+	<script type="text/javascript">
+	$(function (){
+		$.getJSON("js/json/class_1.js",function(data){
+			$(data).each(function(i,json){
+				$("#sku_class_1_select").append("<option value="+json.id+">"+json.flmch1+"</option>");
+			});
+		});
+	});
+	
+	function get_class_2(class_1_id){
+		$.getJSON("js/json/class_2_"+class_1_id+".js",function(data){
+			$("#sku_class_2_select").empty();
+			$(data).each(function(i,json){
+				$("#sku_class_2_select").append("<option value="+json.id+">"+json.flmch2+"</option>");
+			});
+		});
+        get_tm(class_1_id);
+	}
+    function get_tm(class_1_id){
+        $.getJSON("js/json/tm_class_1_"+class_1_id+".js",function(data){
+            $("#sku_tm_select").empty();
+            $(data).each(function(i,json){
+                $("#sku_tm_select").append("<option value="+json.id+">"+json.ppmch+"</option>");
+            });
+        });
+    }
+    function listSpu(brandId){
+        var class2 = $("sku_class_2_select").val();
+        $.post("listSpu",{brandId:brandId,class2:class2},function(data){
+            $("#spu_select").empty();
+            $(data).each(function(i,json){
+                $("#spu_select").append("<option value="+json.id+">"+json.name+"</option>");
+            });
+        });
+    }
+
+    function listSku() {
+        var class2 = $("#sku_class_2_select").val();
+        var brandId = $("#sku_tm_select").val();
+        var productId = $("#spu_select").val();
+        $.get("listSku",{class2:class2,brandId:brandId,id:productId},function (data) {
+            $("#skuList").html(data)
+        })
+    }
+    function deleteSku(id,spuId,brandId,class2) {
+        $.get("deleteSku",{skuId:id,id:id,brandId:brandId,class2:class2},function (data) {
+            $("#skuList").html(data);
+            alert("删除成功!");
+        })
+    }
+	function gotoAddSku(){
+		var class1 =  $("#sku_class_1_select").val();
+		var class2 = $("#sku_class_2_select").val();
+		var brandId = $("#sku_tm_select").val();
+		var productId = $("#spu_select").val();
+        add_tab("gotoAddSku?class1="+class1+"&class2="+class2+"&brandId="+brandId+"&id="+productId,"添加库存");
+	}
+    function gotoUpdateSku(id){
+        add_tab("gotoUpdateSku?id="+id,"修改库存");
+    }
+    function cof() {
+        if(confirm("确认是否删除！")){
+            return true;
+        }
+        return false;
+    }
+</script>
+</body>
+</html>

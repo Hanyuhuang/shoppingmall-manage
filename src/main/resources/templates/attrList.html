@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+	function b(){}
+</script>
+<title>拼东东商城</title>
+</head>
+<body>
+	<div th:fragment="attrList">
+		<table border="1" th:if="${attrList!=null}">
+			<tr><th>属性名称</th><th style="text-align: center">属性值</th><th>操作</th></tr>
+			<tr th:each="attr:${attrList}">
+				<td th:text="${attr.name}"></td>
+				<td>
+					<div th:each="val:${attr.valueList}">
+						<a th:text="${val.value+val.name}" style="text-align: center"/>
+							<a th:href="'javascript:deleteValue('+${val.id}+');'" onclick="return cof()" style="text-align: right">删除</a><br>
+					</div>
+				</td>
+				<td>
+					<a th:href="'javascript:gotoUpdateAttr('+${attr.id}+');'">修改</a>
+					<a th:href="'javascript:deleteAttr('+${attr.id}+');'" onclick="return cof()" style="text-align: right">删除</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

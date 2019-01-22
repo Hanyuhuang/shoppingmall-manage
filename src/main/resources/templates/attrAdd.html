@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+
+</script>
+<title>拼东东商城</title>
+</head>
+<body>
+
+	<form action="addAttr" method="post">
+		<input type="hidden" th:value="${class2}" name="class2"/><br>
+
+		<table border="1" id="addAttr">
+			<tr><td>属性名：<input type="text" name="name"/></td><td></td>
+			<tr>
+			    <td>属性值：<input id="val_0" type="text" name="valueList[0].value" onchange="addValue(0)"/></td>
+				<td>单位：<input type="text" name="valueList[0].name"/></td>>
+		    </tr>
+		</table><br>
+
+		<input type="submit" value="添加"/>
+	</form>
+<script>
+    function addValue(index){
+        var a = '<tr>';
+        var b = '<td>属性值：<input id="val_'+(index+1)+'" type="text" name="valueList['+(index+1)+'].value" onchange="addValue('+(index+1)+')"/></td>';
+        var c = '<td>单位：<input type="text" name="valueList['+(index+1)+'].name"/></td>';
+        var d = "</tr>";
+        $("#addAttr").append(a,b,c,d);
+    }
+</script>
+</body>
+</html>

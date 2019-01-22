@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="spuList">
+    <table th:if="${spuList!=null}">
+        <tr><th>商品名称</th><th>商品图片</th><th>商品描述</th><th>操作</th></tr>
+        <tr th:each="spu:${spuList}">
+            <input type="hidden" name="id" th:value="${spu.id}">
+            <td th:text="${spu.name}"></td>
+            <td><img th:src="@{'/upload/image/'+${spu.pic}}" width="60px"></td>
+            <td th:text="${spu.describes}"></td>
+            <td>
+                <a th:href="'javascript:gotoUpdateSpu('+${spu.id}+');'" >修改</a>
+                <a th:href="'javascript:deleteSpu('+${spu.id}+');'"  onclick="return cof()">删除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hyh.shoppingmallmanage.mapper.AttrMapper">
+	<select id="listAttr"  resultMap="listAttr">
+		select attr.id as attr_id ,attr.*,val.id as val_id ,val.name as val_name,val.*
+		from attr ,
+		value val where
+		attr.id = val.attr_id
+		and
+		attr.class2 = #{class2}
+	</select>
+
+	<resultMap type="AttrVO" id="listAttr"
+		autoMapping="true">
+		<result column="attr_id" property="id" />
+		<collection property="valueList" ofType="Value"
+			autoMapping="true">
+			<result column="val_id" property="id" />
+			<result column="val_name" property="name"></result>
+		</collection>
+	</resultMap>
+
+	<select id="getAttr" parameterType="int"
+			resultMap="getAttr">
+		select attr.id as attr_id ,attr.*,val.id as val_id ,val.name as val_name,val.*
+		from attr ,
+		value val where
+		attr.id = val.attr_id
+		and
+		attr.id = #{id}
+	</select>
+
+	<resultMap type="AttrVO" id="getAttr"
+			   autoMapping="true">
+		<result column="attr_id" property="id" />
+		<collection property="valueList" ofType="Value"
+					autoMapping="true">
+			<result column="val_id" property="id" />
+			<result column="val_name" property="name"></result>
+		</collection>
+	</resultMap>
+
+	<insert id="insertAttr" parameterType="AttrVO" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id">
+		insert into attr(
+		name,
+		class2
+		)
+		values
+		(
+		#{name},
+		#{class2}
+		)
+	</insert>
+
+	<insert id="addValue">
+		insert into value (value,attr_id,name) values (#{value},#{attrId},#{name})
+	</insert>
+
+	<delete id="deleteValue" >
+		delete from value where ${column} = #{id}
+	</delete>
+	<delete id="deleteSkuAttrValue">
+		delete from sku_attribute_value where ${column} = #{id}
+	</delete>
+
+	<delete id="deleteAttr">
+		delete from attr where ${column} = #{id}
+	</delete>
+
+	<update id="updateAttr" parameterType="Attr">
+		update attr set name=#{name} where id=#{id}
+	</update>
+	<update id="updateValue" parameterType="Value">
+		update value set name=#{name},value=#{value} where id=#{id}
+	</update>
+</mapper>
